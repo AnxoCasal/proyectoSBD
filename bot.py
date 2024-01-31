@@ -15,22 +15,8 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# This function responds to start command handler
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Son un bot, dime algo!")
-    
-async def table7(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=taboa_do_7())
-
-# function
-async def afirmador(update, context):
-    file = await context.bot.get_file(update.message.document)
-    filename = update.message.document.file_name
-    await file.download_to_drive(filename)
-  
-   # envía ficheiro de resposta
-    answer = open('resposta.txt', "rb")
-    await context.bot.send_document(chat_id=update.effective_chat.id, document=answer)
 
 #This function responds to echo handler
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -47,13 +33,6 @@ if __name__ == '__main__':
     # Handler to manage text messages
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
     application.add_handler(echo_handler)
-    
-    #handler
-    application.add_handler(MessageHandler(filters.Document.ALL, afirmador))
-    
-    #
-    table7_handler = CommandHandler('table7', table7)
-    application.add_handler(table7_handler)
     
     # Keeps the application running
     application.run_polling()
