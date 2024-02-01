@@ -3,7 +3,6 @@ import os
 from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
-from taboas import *
 
 # Authentication to manage the bot
 load_dotenv()
@@ -16,7 +15,7 @@ logging.basicConfig(
 )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Son un bot, dime algo!")
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Hola, soy AnxoBot, por ahora no hago ni mierda")
 
 #This function responds to echo handler
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
