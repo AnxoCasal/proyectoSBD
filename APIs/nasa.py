@@ -22,16 +22,17 @@ def descargar_imagen(url, nombre_archivo):
     with open(nombre_archivo, 'wb') as archivo:
         archivo.write(response.content)
 
-def main():
+def nasa_apod():
     clave_api = 'RKwmUXGADixrEuY9ZVCfIaRfJXwxB5tH59c642zj'
     resultado = obtener_imagen_apod(clave_api)
 
     if resultado:
         titulo = resultado['title']
         url_imagen = resultado['url']
-        nombre_archivo = "NASA_pic.jpg"
-
-        print(titulo)
-        descargar_imagen(url_imagen, nombre_archivo)
+        path = os.path.abspath(__file__)
+        nombre_archivo = path +"NASA_pic.jpg"
         
-main()
+        descargar_imagen(url_imagen, nombre_archivo)
+        return {"titulo":titulo, "img_path":nombre_archivo}
+    
+nasa_apod()
