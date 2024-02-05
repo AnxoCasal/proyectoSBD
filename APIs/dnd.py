@@ -15,7 +15,7 @@ def get_data(url):
         print(f"Error en la solicitud: {e}")
         return None
 
-def dnd_api():
+def dnd_minigame():
     
     monster_list = get_data("https://www.dnd5eapi.co/api/monsters")["results"]
     spell_list = get_data("https://www.dnd5eapi.co/api/spells")["results"]

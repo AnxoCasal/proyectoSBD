@@ -1,37 +1,77 @@
 import logging
 import os
 from dotenv import load_dotenv
-from telegram import Update
-from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes, filters, CallbackQueryHandler
 
-# Authentication to manage the bot
-load_dotenv()
-TOKEN = os.getenv("TOKEN")
+def launch_bot():
+    load_dotenv()
+    TOKEN = os.getenv("TOKEN")
+    
+    start_menu = {"title":"Bienvenido, soy AnxoBot. Seleccione el campo que desee:", "buttons": [{"nombre":"API's", "data":'apis_menu'},
+                                                                                                {"nombre":"Archivos", "data":'files_menu'},
+                                                                                                {"nombre":"Scrapping", "data":'scrapping_menu'},
+                                                                                                {"nombre":"BBDD", "data":"..."}]}
+    
+    apis_menu = {"title":"Seleccione la API que desea consultar:", "buttons":   [{"nombre":"NASA APOD", "data":'...'},
+                                                                                {"nombre":"Chistes", "data":'...'},
+                                                                                {"nombre":"D&D Adventure", "data":"..."},
+                                                                                {"nombre":"<-- Volver", "data":"go_back"}]}
+    
+    files_menu = {"title":"Seleccione la API que desea consultar:", "buttons":   [{"nombre":"Conversor de archivos", "data":'...'},
+                                                                                {"nombre":"Informacion de CSV", "data":"..."},
+                                                                                {"nombre":"<-- Volver", "data":"go_back"}]}
+    
+    scrapping_menu = {"title":"Seleccione la API que desea consultar:", "buttons":   [{"nombre":"La Voz de Galicia", "data":'...'},
+                                                                                {"nombre":"Gran Via Cines", "data":'...'},
+                                                                                {"nombre":"Acciones del mundo", "data":"..."},
+                                                                                {"nombre":"<-- Volver", "data":"go_back"}]}
+    
+    
+    async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        await show_menu(update, context, start_menu["title"], start_menu["buttons"])
 
-# Show logs in terminal
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+    async def show_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, title, buttons):
+        keyboard = []
+        for button in buttons:
+            keyboard.append([InlineKeyboardButton(button["nombre"], callback_data=button["data"])])
+        
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        original_message = await context.bot.send_message(chat_id=update.effective_chat.id, text=title, reply_markup=reply_markup)
+        context.user_data['original_message'] = original_message.message_id
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Hola, soy AnxoBot, por ahora no hago ni mierda")
+    async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        query = update.callback_query
+        opcion_seleccionada = query.data
+            
+        await context.bot.edit_message_reply_markup(
+            chat_id=update.effective_chat.id,
+            message_id=context.user_data['original_message'],
+            reply_markup=None
+        )
 
-#This function responds to echo handler
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+        # Eliminar el mensaje original con los botones
+        await context.bot.delete_message(chat_id=update.effective_chat.id, message_id=context.user_data['original_message'])
+            
+        if opcion_seleccionada == 'apis_menu':
+            await show_menu(update, context, apis_menu["title"], apis_menu["buttons"])
+        elif opcion_seleccionada == 'files_menu':
+            await show_menu(update, context, files_menu["title"], files_menu["buttons"])
+        elif opcion_seleccionada == 'scrapping_menu':
+            await show_menu(update, context, scrapping_menu["title"], scrapping_menu["buttons"])
+        elif opcion_seleccionada == 'go_back':
+            await show_menu(update, context, start_menu["title"], start_menu["buttons"])
 
-if __name__ == '__main__':
-    # Start the application to operate the bot
     application = ApplicationBuilder().token(TOKEN).build()
 
-    # Handler to manage the start command
     start_handler = CommandHandler('start', start)
     application.add_handler(start_handler)
-
-    # Handler to manage text messages
-    echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
-    application.add_handler(echo_handler)
     
-    # Keeps the application running
+    button_handler = CallbackQueryHandler(button_callback)
+    application.add_handler(button_handler)
+    
+    print("Launch")
     application.run_polling()
+    
+launch_bot()
