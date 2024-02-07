@@ -6,7 +6,8 @@ import os
 class dnd_master:
     
     book = None
-    
+
+    @staticmethod
     def get_data(url):
         
         try:
@@ -19,23 +20,25 @@ class dnd_master:
             print(f"Error en la solicitud: {e}")
             return None
 
-    def get_book(self):
-        return self.book
+    @staticmethod
+    def get_book():
+        return dnd_master.book
     
 
-    def dnd_minigame(self):
+    @staticmethod
+    def dnd_minigame():
         
-        monster_list = self.get_data("https://www.dnd5eapi.co/api/monsters")["results"]
-        spell_list = self.get_data("https://www.dnd5eapi.co/api/spells")["results"]
-        weapon_list = self.get_data("https://www.dnd5eapi.co/api/equipment")["results"]
+        monster_list = dnd_master.get_data("https://www.dnd5eapi.co/api/monsters")["results"]
+        spell_list = dnd_master.get_data("https://www.dnd5eapi.co/api/spells")["results"]
+        weapon_list = dnd_master.get_data("https://www.dnd5eapi.co/api/equipment")["results"]
         
         monster = random.choice(monster_list)
         spell = random.choice(spell_list)
         weapon = random.choice(weapon_list)
         
-        monster_data = self.get_data(f"https://www.dnd5eapi.co/api/monsters/{monster['index']}")
-        spell_data = self.get_data(f"https://www.dnd5eapi.co/api/spells/{spell['index']}")
-        weapon_data = self.get_data(f"https://www.dnd5eapi.co/api/equipment/{weapon['index']}")
+        monster_data = dnd_master.get_data(f"https://www.dnd5eapi.co/api/monsters/{monster['index']}")
+        spell_data = dnd_master.get_data(f"https://www.dnd5eapi.co/api/spells/{spell['index']}")
+        weapon_data = dnd_master.get_data(f"https://www.dnd5eapi.co/api/equipment/{weapon['index']}")
         
         monster_attacks = []
         
@@ -46,29 +49,29 @@ class dnd_master:
         
         if monster_list:
             
-            start = f"You go out on your first adventure.\r\nTHE WORLD IS YOURS\r\n\r\nA {monster['name']} appears in front of you!\r\nIt's going to attack you!\r\n\r\nChoose your weapon!\r\n"
-            spell = f"You cast \"{spell['name']}\"!"
-            weapon = f"You look on your backpack and find a \"{weapon['name']}\"!"
+            start = f"You go out on your first adventure...\r\nTHE WORLD IS YOURS!\r\n\r\nA {monster['name']} appears in front of you!\r\nIt's going to attack you!\r\n\r\nFast! Choose your weapon!\r\n"
+            spell = f"You cast \"{spell['name']}\"!\r\n"
+            weapon = f"You look on your backpack and find a \"{weapon['name']}\"!\r\n"
                 
             if "damage" in spell_data.keys():
-                spell_res = "YOU KILL THE MONSTER!!!"
+                spell += f"YOU KILL THE {monster['name'].upper()}!!!"
             else:
-                spell_res = "That's a non damage spell\t0_0\r\n...\r\n"
+                spell += "That's a non damage spell\t0_0\r\n...\r\n"
                 if monster_attacks:
-                    spell_res += f"The {monster['name']} uses \"{random.choice(monster_attacks)}\" and destroys you!!!"
+                    spell += f"The {monster['name']} uses \"{random.choice(monster_attacks)}\" and destroys you!!!"
                 else:
-                    spell_res += f"The {monster['name']} is completly useless and escapes. You got lucky!!!"
+                    spell += f"The {monster['name']} is completly useless and escapes. You got lucky!!!"
             
             if "damage" in weapon_data.keys():
-                weapon_res = "YOU KILL THE MONSTER!!!"
+                weapon += f"YOU KILL THE {monster['name'].upper()}!!!"
             else:
-                weapon_res = "That's not a weapon\t0_0\r\n...\r\n"
+                weapon += "That's not a weapon\t0_0\r\n...\r\n"
                 if monster_attacks:
-                    weapon_res += f"The {monster['name']} uses \"{random.choice(monster_attacks)}\" and destroys you!!!"
+                    weapon += f"The {monster['name']} uses \"{random.choice(monster_attacks)}\" and destroys you!!!"
                 else:
-                    weapon_res += f"The {monster['name']} is completly useless and escapes. You got lucky!!!"
+                    weapon += f"The {monster['name']} is completly useless and escapes. You got lucky!!!"
                     
-            history = {"start":start, "spell":spell, "weapon":weapon, "spell_res":spell_res, "weapon_res":weapon_res}
+            history = {"start":start, "spell":spell, "weapon":weapon}
         
-        self.book = history
+        dnd_master.book = history
         return history

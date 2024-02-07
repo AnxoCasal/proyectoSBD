@@ -5,8 +5,8 @@ def scrapping_voz_galicia(amount):
     import pandas as pd
     import json
 
-    url = 'https://www.lavozdegalicia.es/'
-    paxina = requests.get(url)
+    url_origen = 'https://www.lavozdegalicia.es/'
+    paxina = requests.get(url_origen)
     soup = BeautifulSoup(paxina.content, 'html.parser')
 
     noticias = []
@@ -14,7 +14,7 @@ def scrapping_voz_galicia(amount):
     for element in soup.find_all("h4","a-min-headline"):
         titular = element.text.strip()
         url = element.find_all("a")[0].get("href")
-        noticias.append({"titular":titular,"url":url})
+        noticias.append({"titular":titular,"url":url_origen+url})
         if len(noticias) >= amount:
             break
         

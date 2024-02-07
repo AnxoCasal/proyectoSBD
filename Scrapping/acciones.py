@@ -1,4 +1,18 @@
-def scrapping_acciones(amount):
+import csv
+
+def lista_diccionarios_a_csv(lista_diccionarios, nombre_archivo):
+    
+    encabezados = lista_diccionarios[0].keys()
+    
+    with open(nombre_archivo, 'w', newline='') as archivo_csv:
+        escritor_csv = csv.DictWriter(archivo_csv, fieldnames=encabezados)
+        
+        escritor_csv.writeheader()
+        
+        for diccionario in lista_diccionarios:
+            escritor_csv.writerow(diccionario)
+
+def scrapping_acciones():
     
     import requests
     from bs4 import BeautifulSoup
@@ -18,7 +32,5 @@ def scrapping_acciones(amount):
         valores = [col.text.strip() for col in columnas[:-1]]
         accion = {"Empresa":valores[0],"Último":valores[1],"Var. %":valores[2],"Ac. %\ año":valores[3],"Máx.":valores[4],"Mín.":valores[5],"Vol.":valores[6],"Capit.":valores[7],"Hora":valores[8],}
         acciones.append(accion)
-        if len(acciones) >= amount:
-            break
         
     return acciones

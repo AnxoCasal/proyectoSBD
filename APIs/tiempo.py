@@ -14,7 +14,7 @@ def obtener_datos_meteorologicos():
         print(f"Error en la solicitud: {e}")
         return None
 
-def main(target):
+def tiempo_api(target):
     
     data = obtener_datos_meteorologicos()
     

@@ -1,2 +1,6 @@
 .env
 *.jpg
+*/__pycache__
+*.pyc
+*.csv
+*.json
