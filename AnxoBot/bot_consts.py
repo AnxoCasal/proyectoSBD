@@ -9,7 +9,7 @@ apis_menu = {"title":"Seleccione la API que desea consultar:", "buttons":   [{"n
                                                                             {"nombre":"Clima", "data":"tiempo_api"},
                                                                             {"nombre":"<-- Volver", "data":"go_back"}]}
 
-files_menu = {"title":"Seleccione la funcion que desea utilizar:", "buttons":   [{"nombre":"Conversor de archivos", "data":'file_conversor'},
+files_menu = {"title":"Seleccione la funcion que desea utilizar:", "buttons":   [{"nombre":"JSON <-> CSV", "data":'file_conversor'},
                                                                             {"nombre":"Informacion de CSV", "data":"file_info"},
                                                                             {"nombre":"<-- Volver", "data":"go_back"}]}
 

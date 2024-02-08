@@ -13,6 +13,12 @@ from telegram.ext import MessageHandler, ApplicationBuilder, CommandHandler, Con
 def launch_bot():
     load_dotenv()
     TOKEN = os.getenv("TOKEN")    
+    
+    def removeFileHandlers():
+            
+        for i in range(len(application.handlers[0]) - 1, -1, -1):
+            if application.handlers[0][i] == handler_converter or application.handlers[0][i] == handler_sniffer:
+                application.remove_handler(application.handlers[0][i])
 
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_menu(update, context, start_menu["title"], start_menu["buttons"])
@@ -63,12 +69,18 @@ def launch_bot():
             await bot_do_market(update, context)
         
         elif opcion_seleccionada == 'file_conversor':
-            await bot_do_converter(update, context)
+            application.add_handler(handler_converter)
+            await bot_create_converter(update, context)
         
         elif opcion_seleccionada == 'file_info':
-            await bot_do_sniffer(update, context)
+            application.add_handler(handler_sniffer)
+            await bot_create_sniffer(update, context)
         
         elif opcion_seleccionada == 'go_back':
+
+            if len(application.handlers[0]) > 2:
+                removeFileHandlers()
+            
             await show_menu(update, context, start_menu["title"], start_menu["buttons"])
 
     application = ApplicationBuilder().token(TOKEN).build()
@@ -79,7 +91,10 @@ def launch_bot():
     button_handler = CallbackQueryHandler(button_callback)
     application.add_handler(button_handler)
 
-    print("Launch")
+    handler_converter = MessageHandler(filters.Document.ALL, bot_do_converter)
+    handler_sniffer = MessageHandler(filters.Document.ALL, bot_do_sniffer)
+    
+    print("bot-running")    
     application.run_polling()
 
-launch_bot()
+launch_bot()    

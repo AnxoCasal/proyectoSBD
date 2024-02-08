@@ -1,7 +1,21 @@
 import pandas as pd
 
-def analizar_csv(analizar_csv):
-    df = pd.read_csv(analizar_csv)
+def analizar_csv(file):
+    
+    df = pd.read_csv(file)
     info_campos_tipos = df.dtypes
     info_estadistica = df.describe()
-    return info_campos_tipos, info_estadistica
+    
+    
+    with open(file, 'w') as file:
+        
+        file.write("Data Types:\n")
+        dtypes_str = info_campos_tipos.to_string()
+        file.write(dtypes_str)
+        file.write("\n\n")
+        
+        file.write("Description:\n")
+        describe_str = info_estadistica.to_string()
+        file.write(describe_str)
+    
+    return file

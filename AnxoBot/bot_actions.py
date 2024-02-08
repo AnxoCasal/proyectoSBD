@@ -16,6 +16,8 @@ from tiempo import tiempo_api
 from acciones import scrapping_acciones, lista_diccionarios_a_csv
 from blockbuster import scrapping_cines
 from newspaper import scrapping_voz_galicia
+from csv_sniffer import analizar_csv
+from file_converter import json_to_csv, csv_to_json
 from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes, filters, CallbackQueryHandler
@@ -153,15 +155,55 @@ async def bot_do_news(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
 ### FILES
 
-async def bot_do_sniffer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def bot_create_sniffer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    await show_menu(update, context, "Suelte aqui su archivo:", back_menu["buttons"])
+
+async def bot_create_converter(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await show_menu(update, context, "Suelte aqui su archivo:", back_menu["buttons"])
     
-    if update.message.document:
-            archivo_id = update.message.document.file_id
-            archivo = context.bot.get_file(archivo_id)
-            archivo_descargado = archivo.download(f"archivos_recibidos/{archivo.file_path}")
-            print(f"Archivo guardado como '{archivo_descargado}'")
+async def dowload_file(update: Update, context: ContextTypes.DEFAULT_TYPE, path):
+    
+    new_file = await update.message.effective_attachment.get_file()
+    await new_file.download_to_drive(custom_path=path)
 
+async def bot_do_sniffer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
+    await clear_screen(update, context)
+    
+    path = "dowloaded_file"
+    await dowload_file(update, context,path)
+    analizar_csv(path)
+    
+    extra_msg = []
+    
+    with open(path, 'rb') as file:
+            msg = await context.bot.send_document(chat_id=update.effective_chat.id, document=file, filename=path+".txt")
+            
+    extra_msg.append(msg.message_id)
+
+    await show_menu(update, context, "Aqui tiene el analisis de su archivo:", back_menu["buttons"], extra_messages=extra_msg)
+    
+    
 async def bot_do_converter(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    ...
+    
+    await clear_screen(update, context)
+    
+    path = "dowloaded_file"
+    await dowload_file(update, context,path)
+    
+    if update.message.document.file_name.endswith(".csv"):
+        new_file = csv_to_json(path)
+    elif update.message.document.file_name.endswith(".json"):
+        new_file = json_to_csv(path)
+    
+    extra_msg = []
+    
+    with open(new_file, 'rb') as file:
+            msg = await context.bot.send_document(chat_id=update.effective_chat.id, document=file, filename=new_file)
+            
+    extra_msg.append(msg.message_id)
+
+    await show_menu(update, context, "Aqui tiene su archivo convertido:", back_menu["buttons"], extra_messages=extra_msg)
+        
