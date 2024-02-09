@@ -26,6 +26,7 @@ from telegram.ext import MessageHandler, ApplicationBuilder, CommandHandler, Con
 
 ### MENUS
 
+## FUNCION QUE BORRA EL ULTIMO MENSAJE ENVIADO
 async def clear_screen(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     if type(context.user_data['original_message']) == list:
@@ -34,6 +35,7 @@ async def clear_screen(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await context.bot.delete_message(chat_id=update.effective_chat.id, message_id=context.user_data['original_message'])
 
+## FUNCION QUE MUESTRA EL MENU BASIO
 async def show_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, title, buttons, extra_messages=None):
     keyboard = []
     for button in buttons:
@@ -47,6 +49,7 @@ async def show_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, title, b
         extra_messages.append(original_message.message_id)
         context.user_data['original_message'] = extra_messages
 
+## FUNCION QUE MUESTRA UN MENU CON DOS COLUMNAS
 async def show_menu_type_2(update: Update, context: ContextTypes.DEFAULT_TYPE, title, left_buttons, right_buttons, extra_messages=None):
     
     keyboard = []
@@ -62,6 +65,7 @@ async def show_menu_type_2(update: Update, context: ContextTypes.DEFAULT_TYPE, t
         extra_messages.append(original_message.message_id)
         context.user_data['original_message'] = extra_messages
 
+## FUNCION QUE MUESTRA UN MENU CON LINKS EN LUGAR DE BOTONES
 async def show_links_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, title, buttons):
     
     keyboard = []
@@ -75,6 +79,9 @@ async def show_links_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, ti
     
     original_message = await context.bot.send_message(chat_id=update.effective_chat.id, text=title, reply_markup=reply_markup)
     context.user_data['original_message'] = original_message.message_id
+
+
+## FUNCIONALIDADES: A PARTIR DE AQUI HAY 1 O 2 FUNCIONES POR CADA APARTADO DEL BOT, CON EL NOMBRE SE ENTIENDE QUE HACEN. SI HAY MAS DE UNA FUNCION POR APARTADO SUELE SER PARA GENERAR MAS MENÚS
 
 ### APIS
 

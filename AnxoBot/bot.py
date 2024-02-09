@@ -15,6 +15,7 @@ def launch_bot():
     load_dotenv()
     TOKEN = os.getenv("TOKEN")    
     
+    #FUNCION PARA ELIMNAR LOS HANDLERS DE ARCHIVOS Y QUE NO FUNCIONEN CUANDO NO SE REQUIRA
     def removeFileHandlers():
             
         for i in range(len(application.handlers[0]) - 1, -1, -1):
@@ -23,7 +24,8 @@ def launch_bot():
 
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_menu(update, context, start_menu["title"], start_menu["buttons"])
-
+    
+    #FUNCION PARA GESTIONAR LAS PULSACIONES DE LOS BOTONES
     async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
         opcion_seleccionada = query.data

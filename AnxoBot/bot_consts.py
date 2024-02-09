@@ -1,3 +1,5 @@
+## ARCHIVO PARA GUARDAR CONSTANTES: MENUS Y LISTAS DE ELEMENTOS
+
 start_menu = {"title":"Bienvenido! Soy AnxoBot, en que quiere que le ayude:", "buttons": [{"nombre":"API's", "data":'apis_menu'},
                                                                                             {"nombre":"Archivos", "data":'files_menu'},
                                                                                             {"nombre":"Scrapping", "data":'scrapping_menu'},
@@ -54,11 +56,11 @@ condenados_menu_right = {"title":"Seleccione el condenado que desea consultar:",
                                                                                                 {"nombre":"Marcos", "data":"Marcos"},
                                                                                                 {"nombre":"Iago", "data":"Iago"}]}
 
-ciudades = ["Barcelona","Madrid","Sevilla","ValÃšncia","Bilbao","CoruÃ±a, A","Oviedo","Puerto de la Cruz","Eivissa","CÃ¡ceres","AlmerÃ­a","Cazorla"]
-
 dnd_menu = {"title":"", "buttons":  [{"nombre":"WEAPONS", "data":'dnd_weapon'},
                                                     {"nombre":"SPELLS", "data":'dnd_magic'}]}
 
 back_menu = {"title":"", "buttons":   [{"nombre":"<-- Volver", "data":"go_back"}]}
+
+ciudades = ["Barcelona","Madrid","Sevilla","ValÃšncia","Bilbao","CoruÃ±a, A","Oviedo","Puerto de la Cruz","Eivissa","CÃ¡ceres","AlmerÃ­a","Cazorla"]
 
 condenados = ['Misaki','Vanesa','Anxo','Martín','Carla','Iván','Alejandro','Javier','Óscar','Maite','Pedro','Andrea','Pablo','Iago','Pedro','Nerea','Pana','José Manuel','Marcos','Iago']
