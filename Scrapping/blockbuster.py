@@ -1,9 +1,9 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import json
+
 def scrapping_cines():
-    
-    import requests
-    from bs4 import BeautifulSoup
-    import pandas as pd
-    import json
 
     url = 'https://www.granviacines.com/peliculas/cartelera'
     paxina = requests.get(url)

@@ -1,4 +1,8 @@
 import csv
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import json
 
 def lista_diccionarios_a_csv(lista_diccionarios, nombre_archivo):
     
@@ -13,11 +17,6 @@ def lista_diccionarios_a_csv(lista_diccionarios, nombre_archivo):
             escritor_csv.writerow(diccionario)
 
 def scrapping_acciones():
-    
-    import requests
-    from bs4 import BeautifulSoup
-    import pandas as pd
-    import json
 
     url = 'https://www.expansion.com/mercados/cotizaciones/indices/ibex35_I.IB.html'
     paxina = requests.get(url)

@@ -1,9 +1,9 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import json
+
 def scrapping_voz_galicia(amount):
-    
-    import requests
-    from bs4 import BeautifulSoup
-    import pandas as pd
-    import json
 
     url_origen = 'https://www.lavozdegalicia.es/'
     paxina = requests.get(url_origen)

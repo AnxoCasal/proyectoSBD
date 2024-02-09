@@ -1,6 +1,7 @@
 import mysql.connector
 
 def mostrar_persoa_inferno(target):
+    
     config = {
     'user': 'Anxo',
     'password': '1Super-Password',
@@ -13,10 +14,8 @@ def mostrar_persoa_inferno(target):
     try:
         connection = mysql.connector.connect(**config)
         if connection.is_connected():
-            db_Info = connection.get_server_info()
             cursor = connection.cursor()
             cursor.execute("select database();")
-            record = cursor.fetchone()
 
             cursor.execute(f"Select * from admision where nome=\'{target}\';")
             datos = cursor.fetchall()[0]
@@ -25,3 +24,5 @@ def mostrar_persoa_inferno(target):
     finally:
         if 'connection' in locals():
             connection.close()
+            
+mostrar_persoa_inferno("Nerea")
