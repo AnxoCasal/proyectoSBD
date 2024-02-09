@@ -6,6 +6,7 @@ mainD = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, mainD+'/APIs')
 sys.path.insert(0, mainD+'/Archivos')
 sys.path.insert(0, mainD+'/Scrapping')
+sys.path.insert(0, mainD+'/BBDD')
 sys.path.insert(0, mainD+'/AnxoBot')
 
 from bot_consts import *
@@ -18,6 +19,7 @@ from blockbuster import scrapping_cines
 from newspaper import scrapping_voz_galicia
 from csv_sniffer import analizar_csv
 from file_converter import json_to_csv, csv_to_json
+from inferno import mostrar_persoa_inferno
 from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes, filters, CallbackQueryHandler
@@ -50,7 +52,7 @@ async def show_menu_type_2(update: Update, context: ContextTypes.DEFAULT_TYPE, t
     keyboard = []
     
     for i in range(len(left_buttons)):
-        keyboard.append([InlineKeyboardButton(left_buttons[i]["nombre"], callback_data=left_buttons[i]["data"]),InlineKeyboardButton(right_buttons[i]["nombre"], callback_data=left_buttons[i]["data"])])
+        keyboard.append([InlineKeyboardButton(left_buttons[i]["nombre"], callback_data=left_buttons[i]["data"]),InlineKeyboardButton(right_buttons[i]["nombre"], callback_data=right_buttons[i]["data"])])
     
     reply_markup = InlineKeyboardMarkup(keyboard)
     
@@ -140,6 +142,7 @@ async def bot_do_market(update: Update, context: ContextTypes.DEFAULT_TYPE):
             msg = await context.bot.send_document(chat_id=update.effective_chat.id, document=file, filename=file_name)
             
     extra_msg.append(msg.message_id)
+    await delete_file(file_name)
 
     await show_menu(update, context, "Aqui tiene las acciones del mundo:", back_menu["buttons"], extra_messages=extra_msg)
     
@@ -154,6 +157,10 @@ async def bot_do_news(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await show_links_menu(update,context,"La Voz de Galicia",botones)
     
 ### FILES
+
+async def delete_file(file):
+    
+    os.remove(file)
 
 async def bot_create_sniffer(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -172,18 +179,24 @@ async def bot_do_sniffer(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await clear_screen(update, context)
     
-    path = "dowloaded_file"
-    await dowload_file(update, context,path)
-    analizar_csv(path)
-    
-    extra_msg = []
-    
-    with open(path, 'rb') as file:
-            msg = await context.bot.send_document(chat_id=update.effective_chat.id, document=file, filename=path+".txt")
-            
-    extra_msg.append(msg.message_id)
+    if update.message.document.file_name.endswith(".csv"):
+        
+        path = "dowloaded_file"
+        await dowload_file(update, context,path)
+        analizar_csv(path)
+        
+        extra_msg = []
+        
+        with open(path, 'rb') as file:
+                msg = await context.bot.send_document(chat_id=update.effective_chat.id, document=file, filename=path+".txt")
+                
+        extra_msg.append(msg.message_id)
 
-    await show_menu(update, context, "Aqui tiene el analisis de su archivo:", back_menu["buttons"], extra_messages=extra_msg)
+        await delete_file(path)
+        await show_menu(update, context, "Aqui tiene el analisis de su archivo:", back_menu["buttons"], extra_messages=extra_msg)
+    
+    else:
+        await show_menu(update, context, "Eso no es un archivo CSV", back_menu["buttons"], extra_messages=extra_msg)
     
     
 async def bot_do_converter(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -193,17 +206,31 @@ async def bot_do_converter(update: Update, context: ContextTypes.DEFAULT_TYPE):
     path = "dowloaded_file"
     await dowload_file(update, context,path)
     
-    if update.message.document.file_name.endswith(".csv"):
-        new_file = csv_to_json(path)
-    elif update.message.document.file_name.endswith(".json"):
-        new_file = json_to_csv(path)
+    if update.message.document.file_name.endswith(".csv") or update.message.document.file_name.endswith(".json"):
+        if update.message.document.file_name.endswith(".csv"):
+            new_file = csv_to_json(path)
+        elif update.message.document.file_name.endswith(".json"):
+            new_file = json_to_csv(path)
     
-    extra_msg = []
-    
-    with open(new_file, 'rb') as file:
-            msg = await context.bot.send_document(chat_id=update.effective_chat.id, document=file, filename=new_file)
-            
-    extra_msg.append(msg.message_id)
-
-    await show_menu(update, context, "Aqui tiene su archivo convertido:", back_menu["buttons"], extra_messages=extra_msg)
+        extra_msg = []
         
+        with open(new_file, 'rb') as file:
+                msg = await context.bot.send_document(chat_id=update.effective_chat.id, document=file, filename=new_file)
+                
+        extra_msg.append(msg.message_id)
+        
+        await delete_file(path)
+        await delete_file(new_file)
+
+        await show_menu(update, context, "Aqui tiene su archivo convertido:", back_menu["buttons"], extra_messages=extra_msg)
+    
+    else:
+        await show_menu(update, context, "Eso no es un archivo JSON o CSV", back_menu["buttons"], extra_messages=extra_msg)
+    
+### BBDD
+
+async def bot_do_bbdd(update: Update, context: ContextTypes.DEFAULT_TYPE, target):
+
+    data = mostrar_persoa_inferno(target)
+    
+    await show_menu(update, context, f"A persona {data['Nome']} atopase no nivel {data['Nivel']} por {data['Nome_nivel']}", back_menu["buttons"])

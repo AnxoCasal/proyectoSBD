@@ -17,7 +17,6 @@ def obtener_datos_meteorologicos():
 def tiempo_api(target):
     
     data = obtener_datos_meteorologicos()
-    
     if data:
         for ciudad in data["ciudades"]:
             if target == ciudad["name"]:

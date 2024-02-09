@@ -1,7 +1,7 @@
 start_menu = {"title":"Bienvenido! Soy AnxoBot, en que quiere que le ayude:", "buttons": [{"nombre":"API's", "data":'apis_menu'},
                                                                                             {"nombre":"Archivos", "data":'files_menu'},
                                                                                             {"nombre":"Scrapping", "data":'scrapping_menu'},
-                                                                                            {"nombre":"BBDD", "data":"..."}]}
+                                                                                            {"nombre":"BBDD", "data":"bbdd"}]}
 
 apis_menu = {"title":"Seleccione la API que desea consultar:", "buttons":   [{"nombre":"D&D Adventure", "data":"dnd_adventure"},
                                                                             {"nombre":"NASA APOD", "data":'nasa_apod'},
@@ -32,9 +32,33 @@ ciudades_menu_right = {"title":"Seleccione la ciudad que desea consultar:", "but
                                                                             {"nombre":"Almeria", "data":"AlmerÃ­a"},
                                                                             {"nombre":"Cazorla", "data":"Cazorla"}]}
 
+condenados_menu_left = {"title":"Seleccione el condenado que desea consultar:", "buttons":     [{"nombre":"Misaki", "data":'Misaki'},
+                                                                                                {"nombre":"Vanesa", "data":'Vanesa'},
+                                                                                                {"nombre":"Anxo", "data":"Anxo"},
+                                                                                                {"nombre":"Martín", "data":'Martín'},
+                                                                                                {"nombre":"Carla", "data":"Carla"},
+                                                                                                {"nombre":"Iván", "data":'Iván'},
+                                                                                                {"nombre":"Alejandro", "data":"Alejandro"},
+                                                                                                {"nombre":"Javier", "data":'Javier'},
+                                                                                                {"nombre":"Óscar", "data":"Óscar"},
+                                                                                                {"nombre":"Maite", "data":"Maite"}]}
+
+condenados_menu_right = {"title":"Seleccione el condenado que desea consultar:", "buttons":     [{"nombre":"Pedro", "data":'Pedro'},
+                                                                                                {"nombre":"Andrea", "data":'Andrea'},
+                                                                                                {"nombre":"Pablo", "data":"Pablo"},
+                                                                                                {"nombre":"Iago", "data":'Iago'},
+                                                                                                {"nombre":"Pedro", "data":"Pedro"},
+                                                                                                {"nombre":"Nerea", "data":'Nerea'},
+                                                                                                {"nombre":"Pana", "data":"Pana"},
+                                                                                                {"nombre":"José Manuel", "data":'José Manuel'},
+                                                                                                {"nombre":"Marcos", "data":"Marcos"},
+                                                                                                {"nombre":"Iago", "data":"Iago"}]}
+
 ciudades = ["Barcelona","Madrid","Sevilla","ValÃšncia","Bilbao","CoruÃ±a, A","Oviedo","Puerto de la Cruz","Eivissa","CÃ¡ceres","AlmerÃ­a","Cazorla"]
 
 dnd_menu = {"title":"", "buttons":  [{"nombre":"WEAPONS", "data":'dnd_weapon'},
                                                     {"nombre":"SPELLS", "data":'dnd_magic'}]}
 
 back_menu = {"title":"", "buttons":   [{"nombre":"<-- Volver", "data":"go_back"}]}
+
+condenados = ['Misaki','Vanesa','Anxo','Martín','Carla','Iván','Alejandro','Javier','Óscar','Maite','Pedro','Andrea','Pablo','Iago','Pedro','Nerea','Pana','José Manuel','Marcos','Iago']

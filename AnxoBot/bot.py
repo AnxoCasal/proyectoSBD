@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import json
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/AnxoBot')
 
@@ -45,7 +46,7 @@ def launch_bot():
             await bot_do_joke(update, context)
         
         elif opcion_seleccionada == 'tiempo_api':
-            await show_menu_type_2(update, context, start_menu["title"], ciudades_menu_left["buttons"], ciudades_menu_right["buttons"])
+            await show_menu_type_2(update, context, ciudades_menu_left["title"], ciudades_menu_left["buttons"], ciudades_menu_right["buttons"])
         
         elif opcion_seleccionada in ciudades:
             await bot_do_tiempo(update, context, opcion_seleccionada)
@@ -75,6 +76,12 @@ def launch_bot():
         elif opcion_seleccionada == 'file_info':
             application.add_handler(handler_sniffer)
             await bot_create_sniffer(update, context)
+        
+        elif opcion_seleccionada == 'bbdd':
+            await show_menu_type_2(update, context, condenados_menu_left["title"], condenados_menu_left["buttons"], condenados_menu_right["buttons"])
+        
+        elif opcion_seleccionada in condenados:
+            await bot_do_bbdd(update, context, opcion_seleccionada)
         
         elif opcion_seleccionada == 'go_back':
 
