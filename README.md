@@ -26,10 +26,7 @@ git clone https://github.com/AnxoCasal/proyectoSBD.git
 
 Creación del archivo .env:
 ```bash
-cd proyecto SBD![furrys](https://github.com/AnxoCasal/proyectoSBD/assets/107409500/a6a684d9-e76c-4842-a855-74add23a7ae5)
-![Scrapping de Acciones](https://github.com/AnxoCasal/proyectoSBD/assets/107409500/ef2b9a24-4956-4d49-a319-afd2ad067fd2)
-![La voz de Galicia](https://github.com/AnxoCasal/proyectoSBD/assets/107409500/56458d9e-35da-4623-89b6-8460ce60fcc4)
-![Menu de inicio](https://github.com/AnxoCasal/proyectoSBD/assets/107409500/d5c559b3-1a61-4330-b682-7269de5fbcbb)
+cd proyecto SBD
 
 echo "TOKEN = \"TU TOKEN DE TELEGRAM\"" > .env
 echo "API_NASA = \"TU TOKEN DE NASA APOD\"" >> .env
