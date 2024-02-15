@@ -1,5 +1,6 @@
 import requests
 import os
+from dotenv import load_dotenv
 
 def obtener_imagen_apod(api_key):
     
@@ -15,7 +16,9 @@ def obtener_imagen_apod(api_key):
     return data
 
 def nasa_apod():
-    clave_api = 'RKwmUXGADixrEuY9ZVCfIaRfJXwxB5tH59c642zj'
+    load_dotenv
+    TOKEN = os.getenv("API_NASA")    
+    clave_api = API_NASA
     resultado = obtener_imagen_apod(clave_api)
 
     if resultado:

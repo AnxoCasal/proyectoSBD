@@ -24,5 +24,3 @@ def mostrar_persoa_inferno(target):
     finally:
         if 'connection' in locals():
             connection.close()
-            
-mostrar_persoa_inferno("Nerea")
