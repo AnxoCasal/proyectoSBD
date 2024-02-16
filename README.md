@@ -40,8 +40,8 @@ python3 AnxoBot/bot.py
 
 En caso de usar Docker:
 ```bash
-docker build -t Anxo_Bot .
-docker run -d Anxo_Bot
+docker build -t anxo_bot .
+docker run -d anxo_bot
 ```
 ![Scrapping de Acciones](https://github.com/AnxoCasal/proyectoSBD/assets/107409500/47fa6fc0-e1e2-4540-94ec-0d2da7771808)
 ![La voz de Galicia](https://github.com/AnxoCasal/proyectoSBD/assets/107409500/0a6fae82-bbc3-43e9-95d4-be4818d06cef)
