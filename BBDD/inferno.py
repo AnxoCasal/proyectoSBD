@@ -15,7 +15,7 @@ def mostrar_persoa_inferno(target):
         connection = mysql.connector.connect(**config)
         if connection.is_connected():
             cursor = connection.cursor()
-            cursor.execute("select database();")
+            cursor.execute("use inferno;")
 
             cursor.execute(f"Select * from admision where nome=\'{target}\';")
             datos = cursor.fetchall()[0]

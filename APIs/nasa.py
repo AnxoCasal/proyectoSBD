@@ -17,7 +17,7 @@ def obtener_imagen_apod(api_key):
 
 def nasa_apod():
     load_dotenv
-    TOKEN = os.getenv("API_NASA")    
+    API_NASA = os.getenv("API_NASA")    
     clave_api = API_NASA
     resultado = obtener_imagen_apod(clave_api)
 
