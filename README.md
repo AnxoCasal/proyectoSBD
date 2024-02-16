@@ -26,7 +26,7 @@ git clone https://github.com/AnxoCasal/proyectoSBD.git
 
 Creación del archivo .env:
 ```bash
-cd proyecto SBD
+cd proyectoSBD
 
 echo "TOKEN = \"TU TOKEN DE TELEGRAM\"" > .env
 echo "API_NASA = \"TU TOKEN DE NASA APOD\"" >> .env
